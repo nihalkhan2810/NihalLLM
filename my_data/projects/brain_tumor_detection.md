@@ -1,0 +1,17 @@
+# Identification of Brain Tumor Using CNN
+Project Role: Author
+Chennai, TN, India
+February 2022 - April 2022
+
+This project aimed to develop an AI-powered system to assist medical professionals in classifying MRI scans for the presence of brain tumors (malignant or non-malignant). The goal was to provide a reliable and relatively fast tool for initial screening, potentially aiding in earlier detection.
+
+-   **Designed a CNN-based pipeline using TensorFlow/Keras to classify MRI scans as malignant or non-malignant, achieving 92% accuracy with a custom ResNet-50 model trained on 5,000+ annotated scans.**
+    I designed and built the core classification model using TensorFlow and Keras, high-level APIs that simplify building neural networks. I chose the ResNet-50 architecture, a deep convolutional neural network known for its performance on image recognition tasks, and customized it for this specific binary classification problem (tumor vs. no tumor). I trained the model on a dataset of over 5,000 pre-annotated MRI scans, carefully managing the training process to achieve a high accuracy of 92% on the test set, demonstrating the model's effectiveness in distinguishing between scan types.
+
+-   **Enhanced image quality using Albumentations for data augmentation (rotations, flips, and contrast adjustments) and OpenCV for preprocessing, improving model precision by 15% on low-resolution scans.**
+    Medical images can vary in quality. To make the model more robust and improve its performance, especially on lower-resolution or less clear scans, I implemented advanced image preprocessing and data augmentation techniques. I used Albumentations, a powerful library for fast and flexible image augmentations, to apply transformations like rotations, flips, and contrast adjustments during training, which artificially increases the size and variability of the training data. I also used OpenCV for standard preprocessing steps. This systematic approach to improving image quality and diversity in the training phase led to a significant 15% improvement in model precision specifically for low-resolution scans, which is crucial for reliable results in varied real-world scenarios.
+
+-   **Automated the pipeline with Flask for real-time tumor detection, achieving an inference time of <200ms per scan, and stored results in PostgreSQL for collaborative analysis.**
+    To make the model usable in a practical setting, I wrapped the trained model and preprocessing steps into a web-based pipeline using Flask, a lightweight Python web framework. This allowed users to upload an MRI scan and get a prediction in near real-time, achieving an inference time of less than 200 milliseconds per scan. The results of the analysis (the classification and associated confidence scores) were stored in a PostgreSQL database. This database served as a central repository, facilitating collaborative analysis among potential users (like a team of researchers or clinicians) to review results and potentially provide feedback.
+
+This project solidified my skills in applying deep learning to medical imaging, handling data quality issues, building full-stack AI applications (model to deployment), and setting up data storage for collaborative use.
