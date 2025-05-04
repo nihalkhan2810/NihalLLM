@@ -1,0 +1,8 @@
+# Soft Skills
+
+-   **Teamwork:** Proven ability to collaborate effectively in diverse team environments on complex technical projects, contributing to shared goals and outcomes.
+-   **Leadership:** Led a team of 4 on the ASL Hand Gesture Analysis project, demonstrating skills in project management, task delegation, coordination, and mentoring team members to successfully deliver project objectives.
+-   **Problem-Solving:** Consistently identify and analyze technical challenges in AI/ML projects (e.g., optimizing latency for edge deployment, reducing misclassification in low light, handling diverse data formats) and devise effective, innovative solutions using appropriate technologies and critical thinking.
+-   **Communication:** Able to articulate technical concepts and project details clearly, both verbally and in writing, essential for effective collaboration, presenting results, and explaining complex systems (like this chatbot) to both technical and non-technical audiences.
+-   **Adaptability:** Successfully transitioned between different academic environments (India and Canada) and quickly adapt to various project requirements, new technologies, and unfamiliar problem domains.
+-   **Continuous Learning:** Proactively seek out and learn new technologies, frameworks, and AI/ML concepts (e.g., transitioning from core ML/DL to specialized CNNs, and now exploring LLM applications and system architectures like Prompt Stuffing).
