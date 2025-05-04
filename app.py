@@ -1,33 +1,32 @@
-# app.py
+
 import os
 import pickle
-import requests # Keeping requests, might be useful for general HTTP or debugging
+import requests 
 
-# --- Import Google Generative AI library ---
+
 import google.generativeai as genai
-# --- Import Flask streaming capability ---
 from flask import Flask, request, jsonify, Response, stream_with_context, make_response
-# --- End Google Generative AI and Flask streaming imports ---
-
-from functools import wraps # Needed for the @wraps decorator
 
 
-# --- Configuration ---
-DATA_DIRECTORY = "my_data" # The folder containing your text data files
-
-# --- Gemini API Configuration ---
-LLM_MODEL_NAME = "gemini-1.5-flash" # Using flash based on your successful test
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") # Get key from environment variables (Secrets)
-# --- End Gemini API Configuration ---
+from functools import wraps 
 
 
-# --- Flask App Setup ---
+
+DATA_DIRECTORY = "my_data" 
+
+
+LLM_MODEL_NAME = "gemini-2.0-flash" 
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY") 
+
+
+
+
 app = Flask(__name__)
 
-# --- CORS Helper Function (Defined Globally) ---
+
 def build_cors_response(response=None):
     origin = request.headers.get('Origin')
-    allowed_origins = ['*'] # Set this to ['https://your-portfolio.vercel.app'] in production
+    allowed_origins = ['*'] 
 
     if response is None:
         response = make_response()
@@ -43,12 +42,12 @@ def build_cors_response(response=None):
     return response
 
 
-# --- Global variables for the loaded resources ---
-full_personal_data = None # Holds the consolidated personal data string
-gemini_model_client = None # Global variable for Gemini model client
+
+full_personal_data = None 
+gemini_model_client = None
 
 
-# --- Load Resources on Startup ---
+
 def load_resources():
     global full_personal_data
     global gemini_model_client
@@ -58,7 +57,7 @@ def load_resources():
 
     print("Loading resources...")
     try:
-        # --- Load ALL Personal Data ---
+       
         print(f"Attempting to load data from {DATA_DIRECTORY}...")
         data_parts = []
         data_dir_path = os.path.join(os.getcwd(), DATA_DIRECTORY)
@@ -74,7 +73,6 @@ def load_resources():
                     try:
                         with open(file_path, 'r', encoding='utf-8') as f:
                             content = f.read()
-                            # Add a separator between files and filename to make it clear in the prompt
                             data_parts.append(f"\n\n--- Content from {file} ---\n\n")
                             data_parts.append(content)
                             print(f"Loaded content from {file_path}")
@@ -87,10 +85,10 @@ def load_resources():
         else:
             full_personal_data = "".join(data_parts)
             print(f"Successfully consolidated data from {len(data_parts)//2} files. Total size: {len(full_personal_data)} characters.")
-        # --- End Load ALL Personal Data ---
 
 
-        # --- Configure Gemini API ---
+
+
         if GEMINI_API_KEY:
             print("Gemini API Key loaded from secrets.")
             genai.configure(api_key=GEMINI_API_KEY)
@@ -104,8 +102,7 @@ def load_resources():
         else:
             print("Warning: Gemini API Key not found in secrets (GEMINI_API_KEY). LLM calls will fail.")
             print("Please ensure you have added GEMINI_API_KEY as a secret in your Space Settings.")
-        # --- End Configure Gemini API ---
-
+       
 
         print("Resources loaded successfully.")
 
@@ -118,21 +115,17 @@ def load_resources():
         full_personal_data = None
         gemini_model_client = None
 
-# --- Call the loading function when the script is imported/run ---
+
 load_resources()
 
 
-# Function to build the prompt sent to the LLM (Using ALL data)
-# MODIFIED by Kai for first-person persona
+
 def build_llm_prompt(query: str, full_data_context: str):
     """Builds the prompt for the LLM using the original query and ALL personal data as context."""
     if not full_data_context:
         return f"Question: {query}\n\nAnswer: I am unable to access the personal data needed to answer questions at this time. Please check the backend configuration."
 
 
-    # --- Kai's First-Person Persona Prompt ---
-    # Instructing the AI to speak as Mohammed Khan ("I")
-    # Reinforcing the data constraint and handling specific question types.
 
     prompt = f"""You are Mohammed Khan. Your sole purpose is to answer the user's question accurately and concisely, speaking in the first person ("I") and drawing information *only* from the "Provided Information" section below.
 
@@ -157,16 +150,16 @@ def build_llm_prompt(query: str, full_data_context: str):
 
     **Answer:**
     """
-    # --- End Kai's First-Person Persona Prompt ---
+
 
     print(f"DEBUG: Built prompt snippet for {LLM_MODEL_NAME}: {prompt[:500]}...")
     return prompt
 
 
-# Function to query the Gemini API and STREAM the response
+
 def query_llm_stream(prompt: str):
     """Sends the prompt to the Gemini API and yields generated text chunks."""
-    # Check if the Gemini model client was configured and data was loaded
+   
     if gemini_model_client is None or full_personal_data is None:
         print("Gemini model client or personal data is not loaded.")
         yield "Error: AI model not configured or personal data not available."
@@ -239,7 +232,7 @@ def ask():
     return build_cors_response(response)
 
 
-# Basic root endpoint (optional, good for checking if the app is running)
+
 @app.route("/")
 def hello():
     response = make_response("Portfolio AI Backend is running!")
